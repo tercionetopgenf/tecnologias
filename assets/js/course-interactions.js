@@ -60,6 +60,7 @@
     document.querySelector('.section-index').setAttribute('aria-label',lang==='pt'?'Percurso ampliado':'Extended reading journey');
     document.querySelector('label[for="chat-input"]').textContent=lang==='pt'?'Pergunta':'Question';
     document.querySelector('.chat-form button').setAttribute('aria-label',lang==='pt'?'Enviar':'Send');
+    document.querySelectorAll('img[data-alt-pt]').forEach(image=>{image.alt=lang==='pt'?image.dataset.altPt:image.dataset.altEn;});
     const art=document.querySelector('.editorial img');
     art.alt=lang==='pt'?'Enfermeira escuta uma pessoa idosa; o tablet apoia o encontro.':'A nurse listens to an older adult; a tablet supports the encounter.';
   }
