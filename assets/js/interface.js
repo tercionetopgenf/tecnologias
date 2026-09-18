@@ -61,6 +61,15 @@
   new MutationObserver(translateInterface).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});translateInterface();
   // Contents are visible by default; only elements below the viewport receive an entrance.
   if('IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    // A gentle entrance at each section boundary; never hide long sections.
+    const sectionObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{
+      if(!entry.isIntersecting)return;
+      entry.target.classList.add('section-arrival');
+      sectionObserver.unobserve(entry.target);
+    }),{threshold:0,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('main section[id]').forEach(section=>{
+      if(section.getBoundingClientRect().top>window.innerHeight)sectionObserver.observe(section);
+    });
     const entrances=[...document.querySelectorAll('main h2,.card,.expanded-card,.phase-card,.historical-track li,.section-art')];
     const io=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('in-view');io.unobserve(entry.target)}}),{threshold:.06,rootMargin:'0px 0px 35px 0px'});
     document.documentElement.classList.add('motion-ready');
